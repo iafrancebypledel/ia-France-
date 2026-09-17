@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<link rel="manifest" href="manifest.webmanifest">
+<title>IA France V1.1</title>
+<style>
+:root{--bg:#07101e;--card:#101c2d;--card2:#14243a;--text:#f3f6fb;--muted:#9db0c9;--line:#263a55;--good:#47d18c;--bad:#ff7b7b;--accent:#70a7ff}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(180deg,#07101e,#0b1627);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:920px;margin:auto;padding:18px 14px 50px}.hero{padding:10px 4px 16px}.hero h1{font-size:30px;margin:0 0 6px}.hero p{color:var(--muted);margin:0;line-height:1.4}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.card{background:rgba(16,28,45,.94);border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:12px}
+.metric strong{font-size:24px;display:block}.metric span,.small{color:var(--muted);font-size:13px}
+h2{font-size:18px;margin:0 0 12px}.control{padding:12px 0;border-bottom:1px solid var(--line)}.control:last-child{border-bottom:0}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:center}.value{font-weight:700;white-space:nowrap}input[type=range]{width:100%;margin:10px 0 0;accent-color:var(--accent)}
+button{border:0;border-radius:14px;padding:14px 16px;font-weight:750;font-size:16px}.primary{background:var(--accent);color:#07101e;width:100%}.secondary{background:#20344f;color:var(--text);width:100%;margin-top:8px}
+.result{font-size:28px;font-weight:800}.good{color:var(--good)}.bad{color:var(--bad)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:right;padding:8px 4px;border-bottom:1px solid var(--line)}th:first-child,td:first-child{text-align:left}
+.note{font-size:12px;line-height:1.45;color:var(--muted)}.pill{display:inline-block;padding:5px 8px;border-radius:99px;background:#1b304b;color:#bdd2ed;font-size:12px;margin:3px 3px 3px 0}
+@media(min-width:700px){.metrics{grid-template-columns:repeat(4,1fr)}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}}
+</style>
+</head>
+<body><main>
+<section class="hero"><h1>🇫🇷 IA France <span class="small">V1.1</span></h1>
+<p>Simulateur pédagogique sur 10 ans. Les chiffres de départ sont des données publiques ; les réactions économiques des curseurs sont des hypothèses de travail, clairement séparées.</p></section>
+
+<section class="grid metrics">
+<div class="card metric"><span>Déficit 2025</span><strong>152,5 Md€</strong><span>5,1 % du PIB</span></div>
+<div class="card metric"><span>Dette fin 2025</span><strong>115,7 %</strong><span>3 460,5 Md€</span></div>
+<div class="card metric"><span>Recettes 2025</span><strong>1 561,7</strong><span>Md€</span></div>
+<div class="card metric"><span>Dépenses 2025</span><strong>1 714,1</strong><span>Md€</span></div>
+</section>
+
+<div class="two">
+<section class="card">
+<h2>Réglages du scénario</h2>
+<div class="control"><div class="row"><span>TVA / autres recettes</span><span class="value" id="revV">0 Md€</span></div><input id="rev" type="range" min="-30" max="50" value="0" step="1"></div>
+<div class="control"><div class="row"><span>Dépenses administratives</span><span class="value" id="adminV">0 Md€</span></div><input id="admin" type="range" min="-40" max="20" value="0" step="1"></div>
+<div class="control"><div class="row"><span>Santé / prévention</span><span class="value" id="healthV">0 Md€</span></div><input id="health" type="range" min="-20" max="30" value="0" step="1"></div>
+<div class="control"><div class="row"><span>Investissement public</span><span class="value" id="investV">0 Md€</span></div><input id="invest" type="range" min="-20" max="30" value="0" step="1"></div>
+<div class="control"><div class="row"><span>Mesures pouvoir d'achat</span><span class="value" id="ppV">0 Md€</span></div><input id="pp" type="range" min="-30" max="30" value="0" step="1"></div>
+<div class="control"><div class="row"><span>Croissance nominale de référence</span><span class="value" id="growthV">3,0 %</span></div><input id="growth" type="range" min="0" max="6" value="3" step=".1"></div>
+<button class="primary" onclick="simulate()">SIMULER</button>
+<button class="secondary" onclick="resetAll()">Réinitialiser</button>
+</section>
+
+<section class="card">
+<h2>Résultat à 10 ans</h2>
+<div class="grid">
+<div><span class="small">Déficit annuel</span><div class="result" id="def10">—</div></div>
+<div><span class="small">Dette / PIB</span><div class="result" id="debt10">—</div></div>
+<div><span class="small">Pouvoir d'achat*</span><div class="result" id="power10">—</div></div>
+<div><span class="small">Santé*</span><div class="result" id="health10">—</div></div>
+</div>
+<p class="note">* Les effets « pouvoir d'achat » et « santé » sont volontairement des proxys expérimentaux dans cette V1.1. Ils ne constituent pas des prévisions.</p>
+<div id="flags"></div>
+</section>
+</div>
+
+<section class="card">
+<h2>Projection</h2>
+<div style="overflow:auto"><table><thead><tr><th>Année</th><th>PIB Md€</th><th>Déficit Md€</th><th>Déficit/PIB</th><th>Dette/PIB</th></tr></thead><tbody id="tbody"></tbody></table></div>
+</section>
+
+<section class="card">
+<h2>Comment le modèle calcule</h2>
+<p class="note">Base : PIB 2025 ≈ 2 990 Md€, dette 3 460,5 Md€, recettes 1 561,7 Md€, dépenses 1 714,1 Md€. Les recettes et dépenses de référence évoluent ici avec le PIB nominal. Les curseurs ajoutent ou retranchent des montants annuels constants. C'est une mécanique de prototype destinée à être remplacée par des modèles détaillés et des intervalles d'incertitude.</p>
+<span class="pill">Donnée officielle</span><span class="pill">Hypothèse visible</span><span class="pill">Résultat calculé</span>
+</section>
+</main>
+<script>
+const BASE={gdp:152.5/.051,debt:3460.5,rev:1561.7,spend:1714.1};
+const ids=["rev","admin","health","invest","pp","growth"];
+ids.forEach(id=>document.getElementById(id).addEventListener("input",()=>{labels();simulate()}));
+function fmt(n,d=1){return n.toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d})}
+function labels(){
+ revV.textContent=(+rev.value>=0?"+":"")+rev.value+" Md€";
+ adminV.textContent=(+admin.value>=0?"+":"")+admin.value+" Md€";
+ healthV.textContent=(+health.value>=0?"+":"")+health.value+" Md€";
+ investV.textContent=(+invest.value>=0?"+":"")+invest.value+" Md€";
+ ppV.textContent=(+pp.value>=0?"+":"")+pp.value+" Md€";
+ growthV.textContent=fmt(+growth.value,1)+" %";
+}
+function simulate(){
+ let g=BASE.gdp,debt=BASE.debt, rows=[];
+ const revenueDelta=+rev.value;
+ const spendDelta=(+admin.value)+(+health.value)+(+invest.value)+(+pp.value);
+ for(let i=1;i<=10;i++){
+   g*=1+(+growth.value/100);
+   let scale=g/BASE.gdp;
+   let R=BASE.rev*scale+revenueDelta;
+   let S=BASE.spend*scale+spendDelta;
+   let D=S-R; debt+=D;
+   rows.push({y:2025+i,g,R,S,D,dr:100*D/g,debt:100*debt/g});
+ }
+ tbody.innerHTML=rows.map(x=>`<tr><td>${x.y}</td><td>${fmt(x.g)}</td><td>${fmt(x.D)}</td><td>${fmt(x.dr,2)} %</td><td>${fmt(x.debt,1)} %</td></tr>`).join("");
+ let last=rows.at(-1);
+ def10.textContent=fmt(last.D)+" Md€"; def10.className="result "+(last.D<0?"good":"bad");
+ debt10.textContent=fmt(last.debt)+" %"; debt10.className="result "+(last.debt<115.7?"good":"bad");
+ // Proxys V1.1 explicitement heuristiques :
+ let power=(+pp.value*0.035 - +rev.value*0.012 + +invest.value*0.006)*10;
+ let healthy=(+health.value*0.0025 + +invest.value*0.0003)*10;
+ power10.textContent=(power>=0?"+":"")+fmt(power,1)+" %";
+ health10.textContent=(healthy>=0?"+":"")+fmt(healthy,2)+" an";
+ power10.className="result "+(power>=0?"good":"bad"); health10.className="result "+(healthy>=0?"good":"bad");
+ let f=[];
+ if(last.dr>3) f.push("Déficit encore supérieur à 3 % du PIB.");
+ if(last.debt>115.7) f.push("Dette/PIB supérieure au point de départ.");
+ if(power<0) f.push("Proxy de pouvoir d’achat en baisse.");
+ flags.innerHTML=f.map(x=>`<p class="note">⚠️ ${x}</p>`).join("") || `<p class="note good">✓ Aucun des trois signaux simples de vigilance n'est déclenché.</p>`;
+}
+function resetAll(){rev.value=admin.value=health.value=invest.value=pp.value=0;growth.value=3;labels();simulate()}
+labels();simulate();
+if("serviceWorker" in navigator){navigator.serviceWorker.register("./sw.js").catch(()=>{})}
+</script></body></html>

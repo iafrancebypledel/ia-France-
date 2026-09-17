@@ -1,0 +1,9 @@
+{
+  "name": "IA France V1.1",
+  "short_name": "IA France",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#07101e",
+  "theme_color": "#0b1220",
+  "description": "Prototype pédagogique de simulation macro-budgétaire française"
+}
