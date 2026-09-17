@@ -1,4 +1,4 @@
-# IA France V10 bêta
+# IA France V10.1 bêta
 
 Démonstrateur de simulation de politiques publiques françaises.
 
