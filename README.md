@@ -1,17 +1,16 @@
-# IA France V2
-Mise à jour du démonstrateur.
+# IA France V3
 
 ## Nouveautés
-- Base 2025 détaillée : prestations sociales, rémunérations publiques, investissement et intérêts.
-- Six leviers de scénario.
-- Projection 2026-2035.
-- Optimiseur déterministe explorant une grille de scénarios.
-- Trois sorties descriptives : finances, pouvoir d'achat, santé.
+- Microsimulation simplifiée en 5 groupes de niveau de vie.
+- Niveaux de vie élargis de référence issus des comptes distribués Insee 2023.
+- Séparation visible entre données observées et hypothèses.
+- Recherche automatique de trajectoires avec contrainte : aucun des cinq groupes ne doit avoir un proxy de niveau de vie négatif.
+- EVSI DREES 2024 comme référence santé.
 
 ## Important
-Les effets macroéconomiques, santé et pouvoir d'achat sont encore des hypothèses heuristiques non calibrées.
-Ils ne doivent pas être interprétés comme des prévisions ou recommandations politiques.
+Les sensibilités des groupes aux curseurs et l'effet santé sont encore des hypothèses de prototype.
+V3 n'est ni une prévision économique ni une recommandation politique.
 
-## Mise à jour GitHub Pages
-Remplacer dans le dépôt les anciens fichiers `index.html`, `manifest.webmanifest`, `sw.js` et `README.md`
-par ceux de ce dossier, puis valider le commit. GitHub Pages republiera automatiquement le site.
+## Mise à jour
+Téléverser ces 4 fichiers dans le dépôt GitHub et valider le remplacement :
+index.html, manifest.webmanifest, sw.js, README.md
