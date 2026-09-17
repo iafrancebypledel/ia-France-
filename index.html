@@ -1,5 +1,5 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#06101e"><link rel="manifest" href="manifest.webmanifest"><title>IA France V10.1 bêta</title>
+<meta name="theme-color" content="#06101e"><link rel="manifest" href="manifest.webmanifest"><title>IA France V10.2 bêta</title>
 <style>
 :root{--bg:#06101e;--card:#101d2e;--line:#263b57;--text:#f6f8fc;--muted:#9fb2ca;--accent:#76aaff;--good:#50d394;--bad:#ff7f7f;--warn:#ffd06a}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(#06101e,#0b1728);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1100px;margin:auto;padding:16px 13px 50px}
@@ -11,7 +11,7 @@ table{width:100%;border-collapse:collapse;font-size:11px}th,td{padding:7px 4px;b
 .pill{display:inline-block;background:#1c304b;border-radius:99px;padding:5px 8px;font-size:11px;margin:2px;color:#cbd9ea}.scenario{border:1px solid var(--line);border-radius:14px;padding:11px;margin-top:9px}.tag{font-size:10px;border-radius:6px;padding:3px 5px;background:#213650;color:#cbd9ea}.bar{height:6px;background:#223650;border-radius:6px;overflow:hidden;margin-top:4px}.fill{height:100%;background:currentColor}
 @media(min-width:780px){.metrics{grid-template-columns:repeat(4,1fr)}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}}
 </style></head><body><main>
-<h1>🇫🇷 IA France <span class="note">V10.1 bêta</span></h1>
+<h1>🇫🇷 IA France <span class="note">V10.2 bêta</span></h1>
 <p class="sub">Laboratoire de politiques publiques : finances, redistribution, travail, santé et investissement. <b>OBSERVÉ</b>, <b>HYPOTHÈSE</b> et <b>ESTIMÉ</b> restent séparés.</p>
 
 <section class="grid metrics">
@@ -48,7 +48,7 @@ table{width:100%;border-collapse:collapse;font-size:11px}th,td{padding:7px 4px;b
 
 <section class="card"><h2>Validation & provenance</h2>
 <span class="pill">Insee APU 2025</span><span class="pill">Insee comptes distribués 2023</span><span class="pill">DREES EVSI 2024</span><span class="pill">Monte Carlo simplifié</span>
-<p class="note">Le moteur V10 bêta n'est pas un modèle officiel. Les comptes de départ et niveaux de vie sont observés ; les élasticités comportementales restent des hypothèses documentées dans le code. L'incertitude est rendue visible plutôt que masquée.</p></section>
+<p class="note">Le moteur V10.2 bêta n'est pas un modèle officiel. Les comptes de départ et niveaux de vie sont observés ; les élasticités comportementales restent des hypothèses documentées dans le code. L'incertitude est rendue visible plutôt que masquée.</p></section>
 
 <script>
 const B={gdp:152.5/.051,debt:3460.5,rev:1561.6,sp:1714.1};
@@ -83,27 +83,39 @@ function run(){let z=calc(P());body.innerHTML=z.rows.map(x=>`<tr><td>${x.y}</td>
  groups.innerHTML=z.gs.map(x=>`<div style="margin:9px 0"><div class="row"><span>${x.n} <span class="note">· ${Math.round(x.share*100)} % · réf. ${f(x.life,0)} €/UC</span></span><b class="${x.pct>=0?'good':'bad'}">${x.pct>=0?'+':''}${f(x.pct,1)} %</b></div><div class="bar"><div class="fill ${x.pct>=0?'good':'bad'}" style="width:${Math.min(100,Math.abs(x.pct)*7)}%"></div></div></div>`).join("");
 }
 function optimize(){
- const btn=document.querySelector('button.ai');
- btn.disabled=true; btn.textContent="⏳ Calcul en cours…"; opts.innerHTML='<p class="note">Recherche des trajectoires…</p>';
+ opts.innerHTML='<p class="note">⏳ Calcul des trajectoires…</p>';
  setTimeout(()=>{
-  try{
-   let C=[];
-   // Grille allégée pour Safari/iPhone : 2 187 combinaisons maximum.
-   const vals={vat:[-10,0,10],labor:[-20,-10,0],benefit:[-20,-10,0],pension:[-20,-10,0],admin:[-20,-10,0],health:[0,10,20],invest:[0,10,20]};
-   for(const vat of vals.vat)for(const labor of vals.labor)for(const benefit of vals.benefit)for(const pension of vals.pension)for(const admin of vals.admin)for(const health of vals.health)for(const invest of vals.invest){
-    const p={vat,labor,benefit,pension,admin,health,invest,growth:3},z=calc(p);
-    if(z.mn>=0&&z.h>=0&&z.last.debt<=125)C.push({p,z});
-   }
-   if(!C.length){opts.innerHTML='<p class="warn">Aucune trajectoire ne respecte simultanément les garde-fous de cette grille.</p>';return}
-   // Scénarios descriptifs : pas de classement politique global.
-   const finance=C.reduce((a,b)=>b.z.last.dr<a.z.last.dr?b:a);
-   const living=C.reduce((a,b)=>b.z.avg>a.z.avg?b:a);
-   const health=C.reduce((a,b)=>b.z.h>a.z.h?b:a);
-   const near3=C.reduce((a,b)=>Math.abs(b.z.last.dr-3)<Math.abs(a.z.last.dr-3)?b:a);
-   const cards=[["Trajectoire finances",finance],["Trajectoire niveau de vie",living],["Trajectoire santé",health],["Trajectoire proche de 3 %",near3]];
-   opts.innerHTML=cards.map(([n,c])=>`<div class="scenario"><b>${n}</b> <span class="tag">ESTIMÉ</span><p class="note">2035 : déficit ${f(c.z.last.dr,2)} % · dette ${f(c.z.last.debt,1)} % · niveau de vie moyen ${c.z.avg>=0?'+':''}${f(c.z.avg,1)} % · groupe minimum ${c.z.mn>=0?'+':''}${f(c.z.mn,1)} % · santé ${c.z.h>=0?'+':''}${f(c.z.h,2)} an</p><p class="note">TVA ${s(c.p.vat)} · travail ${s(c.p.labor)} · prestations ${s(c.p.benefit)} · retraites ${s(c.p.pension)} · admin ${s(c.p.admin)} · santé ${s(c.p.health)} · investissement ${s(c.p.invest)}</p></div>`).join('');
-  }catch(e){opts.innerHTML='<p class="bad">Erreur de calcul : '+String(e)+'</p>'}
-  finally{btn.disabled=false;btn.textContent='⚙️ RECHERCHER DES TRAJECTOIRES'}
+ try{
+  let C=[];
+  const vals=[-20,-10,0,10,20];
+  const pos=[0,10,20];
+  for(const vat of [-10,0,10,20])for(const labor of vals)for(const benefit of vals)
+  for(const pension of vals)for(const admin of [-20,-10,0])for(const health of pos)for(const invest of pos){
+    let p={vat,labor,benefit,pension,admin,health,invest,growth:3},z=calc(p);
+    // Exclut seulement les trajectoires manifestement hors champ expérimental.
+    if(z.last.debt<=145 && z.h>=0) C.push({p,z});
+  }
+  // Front de Pareto: dette plus faible, niveau de vie moyen plus haut,
+  // groupe le moins favorisé plus haut, santé plus haute.
+  C.sort((a,b)=>a.z.last.debt-b.z.last.debt);
+  let front=[];
+  for(const c of C){
+    let dominated=C.some(d=>d!==c &&
+      d.z.last.debt<=c.z.last.debt && d.z.avg>=c.z.avg &&
+      d.z.mn>=c.z.mn && d.z.h>=c.z.h &&
+      (d.z.last.debt<c.z.last.debt || d.z.avg>c.z.avg || d.z.mn>c.z.mn || d.z.h>c.z.h));
+    if(!dominated) front.push(c);
+  }
+  if(!front.length){opts.innerHTML='<p class="warn">Aucune trajectoire exploitable dans cette grille.</p>';return}
+  // Points représentatifs espacés sur le front, sans classement ni "gagnant".
+  front.sort((a,b)=>a.z.last.debt-b.z.last.debt);
+  let picks=[];
+  [0,.25,.5,.75,1].forEach(q=>{let c=front[Math.round(q*(front.length-1))];if(c&&!picks.includes(c))picks.push(c)});
+  opts.innerHTML=`<p class="note"><b>${front.length}</b> trajectoires non dominées trouvées. Les scénarios ci-dessous sont des points représentatifs du front de compromis, sans ordre de préférence.</p>`+
+  picks.map((c,i)=>`<div class="scenario"><b>Scénario ${String.fromCharCode(65+i)}</b> <span class="tag">NON DOMINÉ</span>
+  <p class="note">2035 : déficit ${f(c.z.last.dr,2)} % · dette ${f(c.z.last.debt,1)} % · niveau de vie moyen ${c.z.avg>=0?'+':''}${f(c.z.avg,1)} % · groupe minimum ${c.z.mn>=0?'+':''}${f(c.z.mn,1)} % · santé ${c.z.h>=0?'+':''}${f(c.z.h,2)} an</p>
+  <p class="note">TVA ${s(c.p.vat)} · travail ${s(c.p.labor)} · prestations ${s(c.p.benefit)} · retraites ${s(c.p.pension)} · admin ${s(c.p.admin)} · santé ${s(c.p.health)} · investissement ${s(c.p.invest)}</p></div>`).join("");
+ }catch(e){opts.innerHTML='<p class="bad">Erreur du moteur : '+String(e.message||e)+'</p>'}
  },30);
 }
 function resetAll(){ids.forEach(i=>document.getElementById(i).value=i==="growth"?3:0);labels();run();opts.innerHTML=""}labels();run();

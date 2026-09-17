@@ -1,4 +1,4 @@
-# IA France V10.1 bêta
+# IA France V10.2 bêta
 
 Démonstrateur de simulation de politiques publiques françaises.
 
@@ -20,3 +20,7 @@ Les sorties ne sont ni des prévisions officielles ni des recommandations politi
 
 ## Mise à jour GitHub
 Remplacer index.html, manifest.webmanifest, sw.js et README.md, puis Commit changes.
+
+
+## V10.2
+Optimiseur par front de Pareto : plusieurs trajectoires non dominées, sans classement politique.
