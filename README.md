@@ -1,14 +1,17 @@
-# IA France V1.1 — interface iPhone/iPad
+# IA France V2
+Mise à jour du démonstrateur.
 
-Ouvrez `index.html` dans un navigateur. Pour une utilisation sur iPhone/iPad comme une application,
-hébergez le dossier sur un petit serveur HTTPS puis, dans Safari, utilisez « Ajouter à l'écran d'accueil ».
+## Nouveautés
+- Base 2025 détaillée : prestations sociales, rémunérations publiques, investissement et intérêts.
+- Six leviers de scénario.
+- Projection 2026-2035.
+- Optimiseur déterministe explorant une grille de scénarios.
+- Trois sorties descriptives : finances, pouvoir d'achat, santé.
 
-## Ce que fait cette version
-- Affiche le point de départ des comptes publics 2025.
-- Permet de modifier recettes, dépenses administratives, santé, investissement, mesures de pouvoir d'achat et croissance nominale.
-- Projette mécaniquement déficit et dette/PIB sur 10 ans.
-- Affiche deux proxys expérimentaux pour pouvoir d'achat et santé.
+## Important
+Les effets macroéconomiques, santé et pouvoir d'achat sont encore des hypothèses heuristiques non calibrées.
+Ils ne doivent pas être interprétés comme des prévisions ou recommandations politiques.
 
-## Limite essentielle
-Ce prototype n'est PAS un modèle économétrique et ses proxys santé/pouvoir d'achat ne sont PAS des prévisions.
-La prochaine version devra intégrer des séries historiques, comportements, distributions de ménages et incertitudes.
+## Mise à jour GitHub Pages
+Remplacer dans le dépôt les anciens fichiers `index.html`, `manifest.webmanifest`, `sw.js` et `README.md`
+par ceux de ce dossier, puis valider le commit. GitHub Pages republiera automatiquement le site.
