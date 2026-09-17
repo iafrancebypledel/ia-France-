@@ -1,8 +1,8 @@
 {
-  "name": "IA France V3",
+  "name": "IA France V10 bêta",
   "short_name": "IA France",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#07101e",
-  "theme_color": "#07101e"
+  "background_color": "#06101e",
+  "theme_color": "#06101e"
 }

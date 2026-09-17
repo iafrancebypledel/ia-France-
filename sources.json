@@ -1,0 +1,20 @@
+{
+  "observed_sources": [
+    {
+      "institution": "Insee",
+      "title": "Le compte des administrations publiques en 2025",
+      "url": "https://www.insee.fr/fr/statistiques/8997691"
+    },
+    {
+      "institution": "Insee",
+      "title": "Revenus des ménages élargis à l’ensemble de l’économie en 2023",
+      "url": "https://www.insee.fr/fr/statistiques/8974371"
+    },
+    {
+      "institution": "DREES",
+      "title": "Espérance de vie sans incapacité 2024",
+      "note": "Référence santé de la bêta"
+    }
+  ],
+  "model_status": "Les élasticités sont des hypothèses expérimentales, non des paramètres officiels."
+}

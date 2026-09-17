@@ -1,16 +1,22 @@
-# IA France V3
+# IA France V10 bêta
 
-## Nouveautés
-- Microsimulation simplifiée en 5 groupes de niveau de vie.
-- Niveaux de vie élargis de référence issus des comptes distribués Insee 2023.
-- Séparation visible entre données observées et hypothèses.
-- Recherche automatique de trajectoires avec contrainte : aucun des cinq groupes ne doit avoir un proxy de niveau de vie négatif.
-- EVSI DREES 2024 comme référence santé.
+Démonstrateur de simulation de politiques publiques françaises.
 
-## Important
-Les sensibilités des groupes aux curseurs et l'effet santé sont encore des hypothèses de prototype.
-V3 n'est ni une prévision économique ni une recommandation politique.
+## Données observées
+- Insee : comptes des administrations publiques 2025.
+- Insee : comptes nationaux distribués 2023.
+- DREES : espérance de vie sans incapacité 2024.
 
-## Mise à jour
-Téléverser ces 4 fichiers dans le dépôt GitHub et valider le remplacement :
-index.html, manifest.webmanifest, sw.js, README.md
+## Architecture
+- 7 leviers : TVA, travail, prestations, retraites, administration, santé, investissement.
+- Projection macro 2026–2035.
+- 5 groupes de niveau de vie.
+- Incertitude affichée.
+- Optimiseur multi-objectifs sans sélection d'un choix politique.
+
+## Limites
+Les élasticités et impacts comportementaux sont encore des hypothèses de prototype.
+Les sorties ne sont ni des prévisions officielles ni des recommandations politiques.
+
+## Mise à jour GitHub
+Remplacer index.html, manifest.webmanifest, sw.js et README.md, puis Commit changes.

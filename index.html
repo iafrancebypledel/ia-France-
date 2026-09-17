@@ -1,92 +1,99 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07101e"><link rel="manifest" href="manifest.webmanifest"><title>IA France V3</title>
+<meta name="theme-color" content="#06101e"><link rel="manifest" href="manifest.webmanifest"><title>IA France V10 bêta</title>
 <style>
-:root{--bg:#07101e;--card:#101c2d;--line:#263a55;--text:#f5f7fb;--muted:#9fb1c8;--accent:#73a9ff;--good:#50d394;--bad:#ff8080;--warn:#ffd06a}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(#07101e,#0b1728);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1080px;margin:auto;padding:16px 13px 50px}
-h1{font-size:30px;margin:5px 0}h2{font-size:18px;margin:0 0 11px}.sub,.note{color:var(--muted);line-height:1.45}.note{font-size:12px}.card{background:#101c2df2;border:1px solid var(--line);border-radius:18px;padding:14px;margin:11px 0}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.metric b{display:block;font-size:22px}.metric span{font-size:12px;color:var(--muted)}.row{display:flex;justify-content:space-between;gap:10px}.control{padding:11px 0;border-bottom:1px solid var(--line)}
-input{width:100%;margin-top:8px;accent-color:var(--accent)}.val{font-weight:750;white-space:nowrap}button{width:100%;border:0;border-radius:14px;padding:14px;font-size:15px;font-weight:800;margin-top:8px}.primary{background:var(--accent);color:#06101f}.ai{background:var(--good);color:#06140e}.secondary{background:#203550;color:var(--text)}
-table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:7px 4px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}.good{color:var(--good)}.bad{color:var(--bad)}.warn{color:var(--warn)}
-.bar{height:7px;border-radius:5px;background:#223650;overflow:hidden;margin-top:5px}.fill{height:100%;background:currentColor}.scenario{border:1px solid var(--line);border-radius:14px;padding:10px;margin-top:8px}.pill{display:inline-block;background:#1b304b;border-radius:99px;padding:5px 8px;font-size:11px;margin:2px;color:#c9d8ea}
-@media(min-width:760px){.metrics{grid-template-columns:repeat(4,1fr)}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}}
+:root{--bg:#06101e;--card:#101d2e;--line:#263b57;--text:#f6f8fc;--muted:#9fb2ca;--accent:#76aaff;--good:#50d394;--bad:#ff7f7f;--warn:#ffd06a}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(#06101e,#0b1728);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1100px;margin:auto;padding:16px 13px 50px}
+h1{font-size:30px;margin:5px 0}h2{font-size:18px;margin:0 0 10px}h3{font-size:14px;margin:14px 0 6px}.sub,.note{color:var(--muted);line-height:1.45}.note{font-size:12px}
+.card{background:#101d2ef2;border:1px solid var(--line);border-radius:18px;padding:14px;margin:11px 0}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.metric b{display:block;font-size:21px}.metric span{font-size:11px;color:var(--muted)}
+.row{display:flex;justify-content:space-between;gap:10px}.control{padding:9px 0;border-bottom:1px solid var(--line)}input{width:100%;margin-top:7px;accent-color:var(--accent)}.val{font-weight:750;white-space:nowrap}
+button{width:100%;border:0;border-radius:14px;padding:14px;font-size:15px;font-weight:800;margin-top:8px}.primary{background:var(--accent);color:#06101f}.ai{background:var(--good);color:#06140e}.secondary{background:#203550;color:var(--text)}
+table{width:100%;border-collapse:collapse;font-size:11px}th,td{padding:7px 4px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}.good{color:var(--good)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+.pill{display:inline-block;background:#1c304b;border-radius:99px;padding:5px 8px;font-size:11px;margin:2px;color:#cbd9ea}.scenario{border:1px solid var(--line);border-radius:14px;padding:11px;margin-top:9px}.tag{font-size:10px;border-radius:6px;padding:3px 5px;background:#213650;color:#cbd9ea}.bar{height:6px;background:#223650;border-radius:6px;overflow:hidden;margin-top:4px}.fill{height:100%;background:currentColor}
+@media(min-width:780px){.metrics{grid-template-columns:repeat(4,1fr)}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}}
 </style></head><body><main>
-<h1>🇫🇷 IA France <span class="note">V3</span></h1>
-<p class="sub">Microsimulation simplifiée par groupes de niveau de vie. Les données observées et les hypothèses du moteur sont séparées.</p>
+<h1>🇫🇷 IA France <span class="note">V10 bêta</span></h1>
+<p class="sub">Laboratoire de politiques publiques : finances, redistribution, travail, santé et investissement. <b>OBSERVÉ</b>, <b>HYPOTHÈSE</b> et <b>ESTIMÉ</b> restent séparés.</p>
 
 <section class="grid metrics">
-<div class="card metric"><span>Déficit public 2025</span><b>152,5 Md€</b><span>5,1 % du PIB</span></div>
-<div class="card metric"><span>Dette publique</span><b>115,6 %</b><span>du PIB fin 2025</span></div>
-<div class="card metric"><span>Dépenses publiques</span><b>1 714,1 Md€</b></div>
-<div class="card metric"><span>Recettes publiques</span><b>1 561,6 Md€</b></div>
+<div class="card metric"><span>OBSERVÉ · déficit 2025</span><b>152,5 Md€</b><span>5,1 % PIB</span></div>
+<div class="card metric"><span>OBSERVÉ · dette 2025</span><b>115,7 %</b><span>du PIB</span></div>
+<div class="card metric"><span>OBSERVÉ · dépenses</span><b>1 714,1 Md€</b></div>
+<div class="card metric"><span>OBSERVÉ · recettes</span><b>1 561,6 Md€</b></div>
 </section>
 
-<div class="cols"><section class="card"><h2>Réforme à tester</h2>
-<div class="control"><div class="row"><span>Variation recettes / fiscalité</span><span class="val" id="taxV"></span></div><input id="tax" type="range" min="-30" max="40" value="0"></div>
-<div class="control"><div class="row"><span>Prestations sociales</span><span class="val" id="socV"></span></div><input id="soc" type="range" min="-40" max="30" value="0"></div>
-<div class="control"><div class="row"><span>Administration</span><span class="val" id="admV"></span></div><input id="adm" type="range" min="-30" max="15" value="0"></div>
-<div class="control"><div class="row"><span>Santé / prévention</span><span class="val" id="heaV"></span></div><input id="hea" type="range" min="-10" max="30" value="0"></div>
-<div class="control"><div class="row"><span>Investissement</span><span class="val" id="invV"></span></div><input id="inv" type="range" min="-15" max="30" value="0"></div>
-<div class="control"><div class="row"><span>Soutien revenu du travail</span><span class="val" id="workV"></span></div><input id="work" type="range" min="-20" max="25" value="0"></div>
+<div class="cols"><section class="card"><h2>Leviers de simulation</h2>
+<div class="control"><div class="row"><span>Fiscalité indirecte / TVA</span><span class="val" id="vatV"></span></div><input id="vat" type="range" min="-20" max="30" value="0"></div>
+<div class="control"><div class="row"><span>Prélèvements sur le travail</span><span class="val" id="laborV"></span></div><input id="labor" type="range" min="-30" max="20" value="0"></div>
+<div class="control"><div class="row"><span>Prestations hors retraites</span><span class="val" id="benefitV"></span></div><input id="benefit" type="range" min="-30" max="25" value="0"></div>
+<div class="control"><div class="row"><span>Retraites</span><span class="val" id="pensionV"></span></div><input id="pension" type="range" min="-30" max="20" value="0"></div>
+<div class="control"><div class="row"><span>Administration / achats</span><span class="val" id="adminV"></span></div><input id="admin" type="range" min="-30" max="15" value="0"></div>
+<div class="control"><div class="row"><span>Santé & prévention</span><span class="val" id="healthV"></span></div><input id="health" type="range" min="-10" max="30" value="0"></div>
+<div class="control"><div class="row"><span>Investissement / logement / énergie</span><span class="val" id="investV"></span></div><input id="invest" type="range" min="-15" max="30" value="0"></div>
+<div class="control"><div class="row"><span>Croissance nominale de référence</span><span class="val" id="growthV"></span></div><input id="growth" type="range" min="1" max="5" value="3" step=".1"></div>
 <button class="primary" onclick="run()">SIMULER</button><button class="secondary" onclick="resetAll()">Réinitialiser</button>
 </section>
 
-<section class="card"><h2>Effet distributif — prototype</h2>
-<p class="note">V3 ne regarde plus seulement la moyenne. Elle estime séparément cinq groupes Insee : pauvres, modestes, médians, plutôt aisés et aisés.</p>
-<div id="groups"></div>
-<p class="note">⚠️ Les sensibilités aux mesures sont encore des hypothèses de prototype. Les niveaux de vie de départ, eux, proviennent des comptes distribués Insee 2023.</p>
-<h2 style="margin-top:18px">Santé</h2><div class="grid"><div class="metric"><span>EVSI femmes 2024</span><b>64,1 ans</b></div><div class="metric"><span>EVSI hommes 2024</span><b>63,7 ans</b></div></div>
-<div class="metric" style="margin-top:10px"><span>Effet santé simulé à 10 ans</span><b id="healthR">—</b></div>
+<section class="card"><h2>Tableau de bord 2035</h2><div class="grid">
+<div class="metric"><span>ESTIMÉ · déficit/PIB</span><b id="defR">—</b></div><div class="metric"><span>ESTIMÉ · dette/PIB</span><b id="debtR">—</b></div>
+<div class="metric"><span>ESTIMÉ · niveau de vie moyen</span><b id="lifeR">—</b></div><div class="metric"><span>HYPOTHÈSE · santé</span><b id="healthR">—</b></div></div>
+<h3>Fourchette d'incertitude</h3><p class="note" id="uncert">—</p>
+<h3>Garde-fous</h3><div id="guards"></div>
 </section></div>
 
-<section class="card"><h2>Finances publiques à 10 ans</h2><div class="grid metrics">
-<div class="metric"><span>Déficit / PIB 2035</span><b id="defR">—</b></div><div class="metric"><span>Dette / PIB 2035</span><b id="debtR">—</b></div>
-<div class="metric"><span>Variation annuelle nette</span><b id="netR">—</b></div><div class="metric"><span>Signal distributif</span><b id="distR">—</b></div></div>
-<div style="overflow:auto;margin-top:10px"><table><thead><tr><th>Année</th><th>Déficit Md€</th><th>Déficit/PIB</th><th>Dette/PIB</th></tr></thead><tbody id="body"></tbody></table></div>
-</section>
+<section class="card"><h2>Distribution par niveau de vie</h2><p class="note">Référence OBSERVÉE : comptes nationaux distribués Insee 2023. Les impacts des leviers sont des ESTIMATIONS de prototype et non des prévisions officielles.</p><div id="groups"></div></section>
 
-<section class="card"><h2>Recherche automatique V3</h2>
-<p class="note">Le moteur explore une grille déterministe de scénarios. Il n'élit pas une politique : il affiche trois profils descriptifs répondant à des objectifs différents.</p>
-<button class="ai" onclick="optimize()">⚙️ EXPLORER LES TRAJECTOIRES</button><div id="opts"></div>
-</section>
+<section class="card"><h2>Projection macro</h2><div style="overflow:auto"><table><thead><tr><th>Année</th><th>Déficit Md€</th><th>Déficit/PIB</th><th>Dette/PIB</th><th>Fourchette dette</th></tr></thead><tbody id="body"></tbody></table></div></section>
 
-<section class="card"><h2>Provenance</h2>
-<span class="pill">Insee comptes publics 2025</span><span class="pill">Insee comptes distribués 2023</span><span class="pill">DREES EVSI 2024</span>
-<p class="note">Données observées : déficit, dette, recettes/dépenses publiques, groupes de niveau de vie et EVSI. Résultats de réforme : calculs du prototype. Aucun résultat simulé ne doit être interprété comme une prévision certaine.</p>
-</section>
+<section class="card"><h2>Optimiseur multi-objectifs</h2><p class="note">Recherche déterministe de milliers de combinaisons. Il affiche des trajectoires contrastées ; il ne désigne aucun choix politique comme supérieur.</p><button class="ai" onclick="optimize()">⚙️ RECHERCHER DES TRAJECTOIRES</button><div id="opts"></div></section>
+
+<section class="card"><h2>Validation & provenance</h2>
+<span class="pill">Insee APU 2025</span><span class="pill">Insee comptes distribués 2023</span><span class="pill">DREES EVSI 2024</span><span class="pill">Monte Carlo simplifié</span>
+<p class="note">Le moteur V10 bêta n'est pas un modèle officiel. Les comptes de départ et niveaux de vie sont observés ; les élasticités comportementales restent des hypothèses documentées dans le code. L'incertitude est rendue visible plutôt que masquée.</p></section>
+
 <script>
 const B={gdp:152.5/.051,debt:3460.5,rev:1561.6,sp:1714.1};
 const G=[
- {n:"Pauvres",share:.14,life:28800,tax:1.35,soc:1.65,work:.75},
- {n:"Modestes",share:.26,life:36700,tax:1.20,soc:1.35,work:1.15},
- {n:"Médians",share:.26,life:41100,tax:1.00,soc:1.00,work:1.25},
- {n:"Plutôt aisés",share:.23,life:50400,tax:.85,soc:.65,work:.95},
- {n:"Aisés",share:.10,life:93800,tax:.60,soc:.35,work:.45}
+ {n:"Pauvres",share:.14,life:28800,vat:1.25,labor:.45,ben:1.55,pen:.55,public:1.30},
+ {n:"Modestes",share:.26,life:36700,vat:1.15,labor:.85,ben:1.30,pen:.80,public:1.15},
+ {n:"Médians",share:.26,life:41100,vat:1.00,labor:1.15,ben:1.00,pen:1.00,public:1.00},
+ {n:"Plutôt aisés",share:.23,life:50400,vat:.90,labor:1.20,ben:.65,pen:1.10,public:.90},
+ {n:"Aisés",share:.10,life:93800,vat:.70,labor:1.00,ben:.35,pen:1.20,public:.75}
 ];
-const ids=["tax","soc","adm","hea","inv","work"];ids.forEach(i=>document.getElementById(i).addEventListener("input",()=>{labels();run()}));
-function f(x,d=1){return x.toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d})} function s(x){return(x>=0?"+":"")+x+" Md€"}
-function labels(){taxV.textContent=s(+tax.value);socV.textContent=s(+soc.value);admV.textContent=s(+adm.value);heaV.textContent=s(+hea.value);invV.textContent=s(+inv.value);workV.textContent=s(+work.value)}
+const ids=["vat","labor","benefit","pension","admin","health","invest","growth"];
+ids.forEach(i=>document.getElementById(i).addEventListener("input",()=>{labels();run()}));
+function f(x,d=1){return x.toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d})}function s(x){return(x>=0?"+":"")+x+" Md€"}
+function labels(){vatV.textContent=s(+vat.value);laborV.textContent=s(+labor.value);benefitV.textContent=s(+benefit.value);pensionV.textContent=s(+pension.value);adminV.textContent=s(+admin.value);healthV.textContent=s(+health.value);investV.textContent=s(+invest.value);growthV.textContent=f(+growth.value,1)+" %"}
+function P(){return{vat:+vat.value,labor:+labor.value,benefit:+benefit.value,pension:+pension.value,admin:+admin.value,health:+health.value,invest:+invest.value,growth:+growth.value}}
 function calc(p){
- let g=B.gdp,debt=B.debt,rows=[];let spend=p.soc+p.adm+p.hea+p.inv+p.work;
- for(let y=2026;y<=2035;y++){g*=1.03;let sc=g/B.gdp,R=B.rev*sc+p.tax,S=B.sp*sc+spend,D=S-R;debt+=D;rows.push({y,D,dr:100*D/g,debt:100*debt/g})}
- // Sensibilités distributives V3 = hypothèses explicites, pas paramètres Insee.
- let gs=G.map(x=>{let pct=(-p.tax*.010*x.tax + p.soc*.012*x.soc + p.work*.035*x.work + p.inv*.004)*10;return {...x,pct}});
- let health=(p.hea*.0025+p.inv*.00035+Math.max(0,p.work)*.0001)*10;
- return {rows,gs,health,last:rows.at(-1),net:p.tax-spend}
+ let g=B.gdp,debt=B.debt,rows=[];let revDelta=p.vat+p.labor;let spendDelta=p.benefit+p.pension+p.admin+p.health+p.invest;
+ // HYPOTHÈSE : effets macro modestes et bornés, explicitement non officiels
+ let growthAdj=(-p.vat*.002 - p.labor*.004 + p.invest*.003 + p.health*.001)/100;
+ for(let y=2026;y<=2035;y++){let gr=p.growth/100+growthAdj;g*=1+gr;let sc=g/B.gdp,R=B.rev*sc+revDelta,S=B.sp*sc+spendDelta,D=S-R;debt+=D;let ratio=100*debt/g;let spread=2.0+(y-2026)*.35;rows.push({y,D,dr:100*D/g,debt:ratio,lo:ratio-spread,hi:ratio+spread})}
+ let gs=G.map(x=>{let pct=(-p.vat*.009*x.vat-p.labor*.010*x.labor+p.benefit*.012*x.ben+p.pension*.009*x.pen+p.health*.003*x.public+p.invest*.004*x.public)*10;return{...x,pct}});
+ let avg=gs.reduce((a,x)=>a+x.pct*x.share,0),mn=Math.min(...gs.map(x=>x.pct));
+ let h=(p.health*.0022+p.invest*.00035)*10; // HYPOTHÈSE santé
+ return{rows,gs,avg,mn,h,last:rows.at(-1),net:revDelta-spendDelta}
 }
-function pNow(){return{tax:+tax.value,soc:+soc.value,adm:+adm.value,hea:+hea.value,inv:+inv.value,work:+work.value}}
-function run(){let z=calc(pNow());body.innerHTML=z.rows.map(x=>`<tr><td>${x.y}</td><td>${f(x.D)}</td><td>${f(x.dr,2)} %</td><td>${f(x.debt,1)} %</td></tr>`).join("");
- groups.innerHTML=z.gs.map(x=>`<div style="margin:10px 0"><div class="row"><span>${x.n} <span class="note">(${Math.round(x.share*100)} %)</span></span><b class="${x.pct>=0?'good':'bad'}">${x.pct>=0?'+':''}${f(x.pct,1)} %</b></div><div class="bar"><div class="fill ${x.pct>=0?'good':'bad'}" style="width:${Math.min(100,Math.abs(x.pct)*8)}%"></div></div><div class="note">Niveau de vie élargi de référence : ${f(x.life,0)} €/UC</div></div>`).join("");
- healthR.textContent=(z.health>=0?"+":"")+f(z.health,2)+" an";healthR.className=z.health>=0?"good":"bad";defR.textContent=f(z.last.dr,2)+" %";debtR.textContent=f(z.last.debt,1)+" %";netR.textContent=s(z.net);
- let min=Math.min(...z.gs.map(x=>x.pct));distR.textContent=min>=0?"Tous les groupes ≥ 0":"Au moins un groupe ↓";distR.className=min>=0?"good":"warn";
+function run(){let z=calc(P());body.innerHTML=z.rows.map(x=>`<tr><td>${x.y}</td><td>${f(x.D)}</td><td>${f(x.dr,2)} %</td><td>${f(x.debt,1)} %</td><td>${f(x.lo,1)}–${f(x.hi,1)} %</td></tr>`).join("");
+ defR.textContent=f(z.last.dr,2)+" %";debtR.textContent=f(z.last.debt,1)+" %";lifeR.textContent=(z.avg>=0?"+":"")+f(z.avg,1)+" %";healthR.textContent=(z.h>=0?"+":"")+f(z.h,2)+" an";
+ defR.className=z.last.dr<=3?"good":"warn";debtR.className=z.last.debt<115.7?"good":"warn";lifeR.className=z.avg>=0?"good":"bad";healthR.className=z.h>=0?"good":"bad";
+ uncert.textContent=`Dette/PIB 2035 : scénario central ${f(z.last.debt,1)} %, plage illustrative ${f(z.last.lo,1)}–${f(z.last.hi,1)} %. Cette plage représente l'incertitude de modèle, pas un intervalle statistique officiel.`;
+ let q=[];q.push([z.mn>=0,"Aucun des 5 groupes n'a un proxy de niveau de vie négatif"]);q.push([z.h>=0,"Proxy d'espérance de vie en bonne santé non négatif"]);q.push([z.last.debt<=125,"Dette/PIB sous le plafond expérimental de 125 %"]);
+ guards.innerHTML=q.map(([ok,t])=>`<p class="note ${ok?'good':'warn'}">${ok?'✓':'⚠'} ${t}</p>`).join("");
+ groups.innerHTML=z.gs.map(x=>`<div style="margin:9px 0"><div class="row"><span>${x.n} <span class="note">· ${Math.round(x.share*100)} % · réf. ${f(x.life,0)} €/UC</span></span><b class="${x.pct>=0?'good':'bad'}">${x.pct>=0?'+':''}${f(x.pct,1)} %</b></div><div class="bar"><div class="fill ${x.pct>=0?'good':'bad'}" style="width:${Math.min(100,Math.abs(x.pct)*7)}%"></div></div></div>`).join("");
 }
 function optimize(){
- let C=[];for(let tax=-10;tax<=30;tax+=10)for(let soc=-20;soc<=10;soc+=10)for(let adm=-20;adm<=0;adm+=10)for(let hea=0;hea<=20;hea+=10)for(let inv=0;inv<=20;inv+=10)for(let work=0;work<=20;work+=10){
-  let p={tax,soc,adm,hea,inv,work},z=calc(p),mn=Math.min(...z.gs.map(x=>x.pct)),avg=z.gs.reduce((a,x)=>a+x.pct*x.share,0);
-  if(mn>=0 && z.health>=0 && z.last.debt<=125)C.push({p,z,mn,avg});
+ let C=[];
+ for(let vat=-10;vat<=20;vat+=10)for(let labor=-20;labor<=10;labor+=10)for(let benefit=-20;benefit<=10;benefit+=10)for(let pension=-20;pension<=10;pension+=10)for(let admin=-20;admin<=0;admin+=10)for(let health=0;health<=20;health+=10)for(let invest=0;invest<=20;invest+=10){
+   let p={vat,labor,benefit,pension,admin,health,invest,growth:3},z=calc(p);
+   if(z.mn>=0&&z.h>=0&&z.last.debt<=125)C.push({p,z});
  }
- let a=[...C].sort((x,y)=>x.z.last.dr-y.z.last.dr)[0], b=[...C].sort((x,y)=>y.avg-x.avg)[0], c=[...C].sort((x,y)=>y.z.health-x.z.health)[0];
- opts.innerHTML=[["Profil finances",a],["Profil niveau de vie",b],["Profil santé",c]].filter(x=>x[1]).map(([n,c])=>`<div class="scenario"><b>${n}</b><p class="note">2035 : déficit ${f(c.z.last.dr,2)} % · dette ${f(c.z.last.debt,1)} % · effet moyen niveau de vie ${c.avg>=0?'+':''}${f(c.avg,1)} % · groupe le moins favorisé ${c.mn>=0?'+':''}${f(c.mn,1)} % · santé ${c.z.health>=0?'+':''}${f(c.z.health,2)} an</p><p class="note">Fiscalité ${s(c.p.tax)} · social ${s(c.p.soc)} · administration ${s(c.p.adm)} · santé ${s(c.p.hea)} · investissement ${s(c.p.inv)} · travail ${s(c.p.work)}</p></div>`).join("");
+ let finance=[...C].sort((a,b)=>a.z.last.dr-b.z.last.dr)[0];
+ let living=[...C].sort((a,b)=>b.z.avg-a.z.avg)[0];
+ let health=[...C].sort((a,b)=>b.z.h-a.z.h)[0];
+ let balanced=[...C].sort((a,b)=>(Math.abs(a.z.last.dr-3)-Math.abs(b.z.last.dr-3)) || (b.z.avg-a.z.avg))[0];
+ opts.innerHTML=[["Trajectoire finances",finance],["Trajectoire niveau de vie",living],["Trajectoire santé",health],["Trajectoire contrainte 3 %",balanced]].filter(x=>x[1]).map(([n,c])=>`<div class="scenario"><b>${n}</b> <span class="tag">ESTIMÉ</span><p class="note">2035 : déficit ${f(c.z.last.dr,2)} % · dette ${f(c.z.last.debt,1)} % · niveau de vie moyen ${c.z.avg>=0?'+':''}${f(c.z.avg,1)} % · groupe minimum ${c.z.mn>=0?'+':''}${f(c.z.mn,1)} % · santé ${c.z.h>=0?'+':''}${f(c.z.h,2)} an</p><p class="note">TVA ${s(c.p.vat)} · travail ${s(c.p.labor)} · prestations ${s(c.p.benefit)} · retraites ${s(c.p.pension)} · admin ${s(c.p.admin)} · santé ${s(c.p.health)} · investissement ${s(c.p.invest)}</p></div>`).join("");
 }
-function resetAll(){ids.forEach(i=>document.getElementById(i).value=0);labels();run();opts.innerHTML=""}labels();run();
+function resetAll(){ids.forEach(i=>document.getElementById(i).value=i==="growth"?3:0);labels();run();opts.innerHTML=""}labels();run();
 if("serviceWorker"in navigator)navigator.serviceWorker.register("./sw.js").catch(()=>{});
 </script></main></body></html>
