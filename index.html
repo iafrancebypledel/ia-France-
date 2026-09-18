@@ -23,6 +23,18 @@
  .section-row td{background:#eee!important;font-weight:700;border-top:1px solid #999}
  .kpis{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:5px}
  .kpi{border:1px solid #bbb;padding:7px}
+}
+@media print{
+ body *{visibility:hidden!important}
+ #printQuoteHeader,#printQuoteHeader *,#printOnlyQuote,#printOnlyQuote *{visibility:visible!important}
+ #printQuoteHeader{display:block!important;position:static!important}
+ #printOnlyQuote{display:block!important;position:static!important}
+ body,main{margin:0!important;padding:0!important;background:#fff!important}
+ #printOnlyQuote table{width:100%!important;border-collapse:collapse!important;font-size:9.5pt!important}
+ #printOnlyQuote th,#printOnlyQuote td{padding:6px!important;border-bottom:1px solid #ccc!important}
+ #printOnlyQuote th{text-align:left!important}
+ #printOnlyQuote .section-row td{background:#eee!important;font-weight:700!important;border-top:1px solid #999!important}
+ @page{size:A4 portrait;margin:12mm}
 }</style></head><body>
 <header><b>PLEDELEC Clim</b><div style="font-size:12px;opacity:.75">Thermor Nagano Pure — V1</div></header><main><section id="printQuoteHeader" style="display:none">
   <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #111;padding-bottom:12px;margin-bottom:14px">
@@ -50,7 +62,17 @@ function printClientPDF(){
   document.getElementById('printAddress').textContent=document.getElementById('address').value||'';
   document.getElementById('printDate').textContent='Date : '+new Date().toLocaleDateString('fr-FR');
   document.body.classList.add('printing-client');
-  setTimeout(()=>{ window.print(); document.body.classList.remove('printing-client'); },250);
+  setTimeout(()=>{
+    const rows=document.getElementById('rows').innerHTML;
+    document.getElementById('printOnlyLines').innerHTML='<table><thead><tr><th>Désignation</th><th>Qté</th><th>Prix HT</th><th>Total HT</th></tr></thead><tbody>'+rows+'</tbody></table>';
+    const ht=n('totalHT')||n('ht'), vatRate=n('vat'), vat=ht*vatRate/100, ttc=ht+vat;
+    document.getElementById('printOnlyTotals').innerHTML=
+      '<table><tr><td><b>Total HT</b></td><td style="text-align:right"><b>'+eur(ht)+'</b></td></tr>'+
+      '<tr><td>TVA '+String(vatRate).replace('.',',')+' %</td><td style="text-align:right">'+eur(vat)+'</td></tr>'+
+      '<tr><td style="font-size:12pt"><b>Total TTC</b></td><td style="text-align:right;font-size:12pt"><b>'+eur(ttc)+'</b></td></tr></table>';
+    window.print();
+    document.body.classList.remove('printing-client');
+  },300);
 }
 const n=id=>Number(document.getElementById(id).value)||0;const eur=x=>(x||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
 function addUI(){seq++;let d=document.createElement('div');d.className='ui';d.innerHTML=`<div style="display:flex;justify-content:space-between"><b>UI ${seq}</b><button class="danger no-print" onclick="this.closest('.ui').remove();calc()">Supprimer</button></div><div class="row"><div><label>Pièce</label><input class="room" oninput="calc()"></div><div><label>Volume de la pièce m³</label><input class="volume" type="number" step=".1" placeholder="Ex. 100" oninput="power(this)"></div><div><label>Isolation</label><select class="iso" onchange="power(this)"><option value=".8">Bien isolé 0,8</option><option value="1" selected>Moyen 1</option><option value="1.2">Mal isolé 1,2</option></select></div><div><label>Besoin calculé</label><input class="need" disabled></div><div><label>Puissance UI</label><select class="pow" onchange="calc()"><option value="1.5">1,5 kW</option><option value="2">2,0 kW</option><option value="2.6" selected>2,6 kW</option><option value="3.5">3,5 kW</option><option value="4.2">4,2 kW</option><option value="5.2">5,2 kW</option><option value="7">7,0 kW</option></select></div><div class="internal"><label>Référence UI</label><input class="ref"></div><div class="internal"><label>Achat UI HT automatique</label><input class="price" type="number" value="0" readonly></div><div><label>Liaison frigo longueur réelle m</label><input class="frigoLen" type="number" value="5"></div><div><label>Condensats longueur réelle m</label><input class="condLen" type="number" value="5"></div><div><label>Pompe Si-30</label><select class="pump" onchange="calc()"><option value="0">Non</option><option value="1">Oui</option></select></div><div><label>Goulotte UI nécessaire m</label><input class="trunk" type="number" step=".1" value="2" oninput="calc()"></div></div>`;document.getElementById('uis').appendChild(d);calc()}
