@@ -8,20 +8,47 @@
  th,td{padding:6px 4px}
  .section-row{break-after:avoid}
  .section-row+tr{break-before:avoid}
+}@media print{
+ @page{size:A4;margin:12mm}
+ body{background:#fff!important;font-size:10.5pt;color:#000}
+ header,.no-print,.internal{display:none!important}
+ #printQuoteHeader{display:block!important}
+ main{max-width:none!important;padding:0!important}
+ main>.card{display:none!important}
+ #printQuoteHeader{display:block!important}
+ #printQuoteHeader + .card{display:none!important}
+ .print-quote{display:block!important}
+ table{width:100%;font-size:9.5pt;border-collapse:collapse}
+ th,td{padding:6px 5px;border-bottom:1px solid #ddd}
+ .section-row td{background:#eee!important;font-weight:700;border-top:1px solid #999}
+ .kpis{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:5px}
+ .kpi{border:1px solid #bbb;padding:7px}
 }</style></head><body>
-<header><b>PLEDELEC Clim</b><div style="font-size:12px;opacity:.75">Thermor Nagano Pure — V1</div></header><main>
+<header><b>PLEDELEC Clim</b><div style="font-size:12px;opacity:.75">Thermor Nagano Pure — V1</div></header><main><section id="printQuoteHeader" style="display:none">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #111;padding-bottom:12px;margin-bottom:14px">
+    <div><div style="font-size:24px;font-weight:800">PLEDELEC</div><div>Électricité • Plomberie • Chauffage • Climatisation</div></div>
+    <div style="text-align:right"><div style="font-size:20px;font-weight:800">DEVIS</div><div id="printDate"></div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:15px">
+    <div><b>Chantier</b><div id="printAddress"></div></div>
+    <div style="border:1px solid #bbb;padding:10px"><b>Client</b><div id="printClient"></div></div>
+  </div>
+</section>
 <div class="card"><h2>Client & chantier</h2><div class="row"><div><label>Client</label><input id="client"></div><div><label>Adresse</label><input id="address"></div><div><label>Difficulté</label><select id="diff" onchange="calc()"><option value="simple">Simple</option><option value="medium">Plus compliqué</option><option value="hard">Compliqué</option></select></div><div><label>Pose UE</label><select id="pose" onchange="calc()"><option>Sol</option><option>Mur</option></select></div><div><label>TVA</label><select id="vat" onchange="calc()"><option value="5.5" selected>5,5 %</option><option value="10">10 %</option><option value="20">20 %</option></select></div><input id="ueCount" type="hidden" value="0"></div></div>
 <div class="card internal"><h2>Réglages</h2><div class="row"><div><label>Coef matériel</label><input id="coef" type="number" step=".01" value="1.60" oninput="calc()"></div><div><label>Coût MO €/h</label><input id="laborCost" type="number" value="44" oninput="calc()"></div><div><label>Coef MO</label><input id="laborCoef" type="number" step=".01" value="1.30" oninput="calc()"></div><div><label>MO vente €/h</label><input id="laborSell" disabled></div></div><p class="note">Les principaux prix Thermor sont calculés automatiquement. Les supports UE restent éditables selon le tarif fournisseur.</p></div>
 <div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h2>Unités intérieures</h2><button class="primary no-print" onclick="addUI()">+ UI</button></div><div id="uis"></div></div>
 <div class="card internal"><h2>Unité extérieure</h2><div class="row"><div><label>UE sélectionnée automatiquement</label><input id="ueRef" readonly></div><div><label>Achat UE HT</label><input id="uePrice" type="number" value="0" step=".01" readonly></div><div><label>Vente UE HT (coef appliqué)</label><input id="ueSellPrice" readonly></div><div><label>Achat support UE HT</label><input id="supportPrice" type="number" value="0" oninput="calc()"></div><div><label>Accessoires UE achat HT</label><input id="ueAcc" type="number" value="40" oninput="calc()"></div></div><p class="note">Automatique par UE : 2 barres goulotte 101925 à 17,98 €, 20 m de 3G2,5 à 1,07 €/m, 1 disjoncteur courbe D à 53 €.</p></div>
 <div class="card internal"><h2>Mise en service</h2><div class="row"><div><label>Prix HT sans coefficient</label><input id="commission" type="number" oninput="manualCommission=true;calc()"></div></div><p class="note">389 € pour 1 UI + 103 € par UI supplémentaire.</p></div>
-<div class="card no-print"><h2>Présentation du devis</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><button id="btnInternal" class="primary" onclick="setMode('internal')">Détail interne</button><button id="btnClient" class="secondary" onclick="setMode('client')">Version client</button></div><p class="note">La version client regroupe fournitures et main-d’œuvre dans chaque poste.</p></div><div class="card"><h2>Résumé</h2><div class="kpis"><div class="kpi internal"><small>Achats matériel</small><b id="purchase">0 €</b></div><div class="kpi"><small>Total HT</small><b id="ht">0 €</b></div><div class="kpi"><small>TVA</small><b id="tax">0 €</b></div><div class="kpi"><small>Total TTC</small><b id="ttc">0 €</b></div><div class="kpi internal"><small>Heures MO</small><b id="hours">0 h</b></div><div class="kpi internal"><small>MO vendue</small><b id="labor">0 €</b></div><div class="kpi internal"><small>Marge brute estimée</small><b id="margin">0 €</b></div><div class="kpi internal"><small>Taux de marque</small><b id="rate">0 %</b></div></div></div>
-<div class="card"><h2>Détail devis</h2><table><thead><tr><th>Désignation</th><th>Qté</th><th>PU HT</th><th>Total HT</th></tr></thead><tbody id="rows"></tbody></table><p><b>Mise en service Pompe a chaleur air/air THERMOR NAGANO</b><br>Pose raccordement et mise en service pompe a chaleur air/air<br>Mise en service PLEDELEC<br>CAPACITE N°aco/sq020427-001<br>QUALIBAT RGE N°E-E99271</p><button class="primary no-print" onclick="printClientPDF()">Imprimer la version client / PDF</button></div>
+<div class="card no-print"><h2>Présentation du devis</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><button id="btnInternal" class="primary" onclick="setMode('internal')">Détail interne</button><button id="btnClient" class="secondary" onclick="setMode('client')">Version client</button></div><p class="note">La version client regroupe fournitures et main-d’œuvre dans chaque poste.</p></div><div class="card print-quote"><h2>Résumé</h2><div class="kpis"><div class="kpi internal"><small>Achats matériel</small><b id="purchase">0 €</b></div><div class="kpi"><small>Total HT</small><b id="ht">0 €</b></div><div class="kpi"><small>TVA</small><b id="tax">0 €</b></div><div class="kpi"><small>Total TTC</small><b id="ttc">0 €</b></div><div class="kpi internal"><small>Heures MO</small><b id="hours">0 h</b></div><div class="kpi internal"><small>MO vendue</small><b id="labor">0 €</b></div><div class="kpi internal"><small>Marge brute estimée</small><b id="margin">0 €</b></div><div class="kpi internal"><small>Taux de marque</small><b id="rate">0 %</b></div></div></div>
+<div class="card print-quote"><h2>Détail devis</h2><table><thead><tr><th>Désignation</th><th>Qté</th><th>PU HT</th><th>Total HT</th></tr></thead><tbody id="rows"></tbody></table><p><b>Mise en service Pompe a chaleur air/air THERMOR NAGANO</b><br>Pose raccordement et mise en service pompe a chaleur air/air<br>Mise en service PLEDELEC<br>CAPACITE N°aco/sq020427-001<br>QUALIBAT RGE N°E-E99271</p><button class="primary no-print" onclick="printClientPDF()">Imprimer la version client / PDF</button></div>
 </main><script>
 let seq=0,manualCommission=false,displayMode='internal';
 function setMode(m){displayMode=m;document.getElementById('btnInternal').className=m==='internal'?'primary':'secondary';document.getElementById('btnClient').className=m==='client'?'primary':'secondary';calc();}
 function printClientPDF(){
   setMode('client');
+  document.getElementById('printClient').textContent=document.getElementById('client').value||'';
+  document.getElementById('printAddress').textContent=document.getElementById('address').value||'';
+  document.getElementById('printDate').textContent='Date : '+new Date().toLocaleDateString('fr-FR');
   document.body.classList.add('printing-client');
   setTimeout(()=>{ window.print(); document.body.classList.remove('printing-client'); },250);
 }
