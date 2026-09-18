@@ -53,6 +53,14 @@
  main>.print-quote .kpi{display:block!important;border:1px solid #bbb!important;padding:8px!important}
  main>.print-quote .kpi.internal{display:none!important}
 }
+
+@media print{
+ main>.print-quote{break-inside:auto!important;page-break-inside:auto!important}
+ main>.print-quote table{break-inside:auto!important;page-break-inside:auto!important}
+ main>.print-quote tbody{break-inside:auto!important}
+ main>.print-quote tr{break-inside:avoid!important;page-break-inside:avoid!important}
+ main>.print-quote .section-row{break-after:avoid!important;page-break-after:avoid!important}
+}
 </style></head><body>
 <header><b>PLEDELEC Clim</b><div style="font-size:12px;opacity:.75">Thermor Nagano Pure — V1</div></header><main><section id="printQuoteHeader" style="display:none">
   <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #111;padding-bottom:12px;margin-bottom:14px">
