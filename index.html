@@ -1,123 +1,150 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#06101e"><link rel="manifest" href="manifest.webmanifest"><title>IA France V10.2 bêta</title>
-<style>
-:root{--bg:#06101e;--card:#101d2e;--line:#263b57;--text:#f6f8fc;--muted:#9fb2ca;--accent:#76aaff;--good:#50d394;--bad:#ff7f7f;--warn:#ffd06a}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(#06101e,#0b1728);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:1100px;margin:auto;padding:16px 13px 50px}
-h1{font-size:30px;margin:5px 0}h2{font-size:18px;margin:0 0 10px}h3{font-size:14px;margin:14px 0 6px}.sub,.note{color:var(--muted);line-height:1.45}.note{font-size:12px}
-.card{background:#101d2ef2;border:1px solid var(--line);border-radius:18px;padding:14px;margin:11px 0}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.metric b{display:block;font-size:21px}.metric span{font-size:11px;color:var(--muted)}
-.row{display:flex;justify-content:space-between;gap:10px}.control{padding:9px 0;border-bottom:1px solid var(--line)}input{width:100%;margin-top:7px;accent-color:var(--accent)}.val{font-weight:750;white-space:nowrap}
-button{width:100%;border:0;border-radius:14px;padding:14px;font-size:15px;font-weight:800;margin-top:8px}.primary{background:var(--accent);color:#06101f}.ai{background:var(--good);color:#06140e}.secondary{background:#203550;color:var(--text)}
-table{width:100%;border-collapse:collapse;font-size:11px}th,td{padding:7px 4px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}.good{color:var(--good)}.bad{color:var(--bad)}.warn{color:var(--warn)}
-.pill{display:inline-block;background:#1c304b;border-radius:99px;padding:5px 8px;font-size:11px;margin:2px;color:#cbd9ea}.scenario{border:1px solid var(--line);border-radius:14px;padding:11px;margin-top:9px}.tag{font-size:10px;border-radius:6px;padding:3px 5px;background:#213650;color:#cbd9ea}.bar{height:6px;background:#223650;border-radius:6px;overflow:hidden;margin-top:4px}.fill{height:100%;background:currentColor}
-@media(min-width:780px){.metrics{grid-template-columns:repeat(4,1fr)}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}}
-</style></head><body><main>
-<h1>🇫🇷 IA France <span class="note">V10.2 bêta</span></h1>
-<p class="sub">Laboratoire de politiques publiques : finances, redistribution, travail, santé et investissement. <b>OBSERVÉ</b>, <b>HYPOTHÈSE</b> et <b>ESTIMÉ</b> restent séparés.</p>
-
-<section class="grid metrics">
-<div class="card metric"><span>OBSERVÉ · déficit 2025</span><b>152,5 Md€</b><span>5,1 % PIB</span></div>
-<div class="card metric"><span>OBSERVÉ · dette 2025</span><b>115,7 %</b><span>du PIB</span></div>
-<div class="card metric"><span>OBSERVÉ · dépenses</span><b>1 714,1 Md€</b></div>
-<div class="card metric"><span>OBSERVÉ · recettes</span><b>1 561,6 Md€</b></div>
-</section>
-
-<div class="cols"><section class="card"><h2>Leviers de simulation</h2>
-<div class="control"><div class="row"><span>Fiscalité indirecte / TVA</span><span class="val" id="vatV"></span></div><input id="vat" type="range" min="-20" max="30" value="0"></div>
-<div class="control"><div class="row"><span>Prélèvements sur le travail</span><span class="val" id="laborV"></span></div><input id="labor" type="range" min="-30" max="20" value="0"></div>
-<div class="control"><div class="row"><span>Prestations hors retraites</span><span class="val" id="benefitV"></span></div><input id="benefit" type="range" min="-30" max="25" value="0"></div>
-<div class="control"><div class="row"><span>Retraites</span><span class="val" id="pensionV"></span></div><input id="pension" type="range" min="-30" max="20" value="0"></div>
-<div class="control"><div class="row"><span>Administration / achats</span><span class="val" id="adminV"></span></div><input id="admin" type="range" min="-30" max="15" value="0"></div>
-<div class="control"><div class="row"><span>Santé & prévention</span><span class="val" id="healthV"></span></div><input id="health" type="range" min="-10" max="30" value="0"></div>
-<div class="control"><div class="row"><span>Investissement / logement / énergie</span><span class="val" id="investV"></span></div><input id="invest" type="range" min="-15" max="30" value="0"></div>
-<div class="control"><div class="row"><span>Croissance nominale de référence</span><span class="val" id="growthV"></span></div><input id="growth" type="range" min="1" max="5" value="3" step=".1"></div>
-<button class="primary" onclick="run()">SIMULER</button><button class="secondary" onclick="resetAll()">Réinitialiser</button>
-</section>
-
-<section class="card"><h2>Tableau de bord 2035</h2><div class="grid">
-<div class="metric"><span>ESTIMÉ · déficit/PIB</span><b id="defR">—</b></div><div class="metric"><span>ESTIMÉ · dette/PIB</span><b id="debtR">—</b></div>
-<div class="metric"><span>ESTIMÉ · niveau de vie moyen</span><b id="lifeR">—</b></div><div class="metric"><span>HYPOTHÈSE · santé</span><b id="healthR">—</b></div></div>
-<h3>Fourchette d'incertitude</h3><p class="note" id="uncert">—</p>
-<h3>Garde-fous</h3><div id="guards"></div>
-</section></div>
-
-<section class="card"><h2>Distribution par niveau de vie</h2><p class="note">Référence OBSERVÉE : comptes nationaux distribués Insee 2023. Les impacts des leviers sont des ESTIMATIONS de prototype et non des prévisions officielles.</p><div id="groups"></div></section>
-
-<section class="card"><h2>Projection macro</h2><div style="overflow:auto"><table><thead><tr><th>Année</th><th>Déficit Md€</th><th>Déficit/PIB</th><th>Dette/PIB</th><th>Fourchette dette</th></tr></thead><tbody id="body"></tbody></table></div></section>
-
-<section class="card"><h2>Optimiseur multi-objectifs</h2><p class="note">Recherche déterministe de milliers de combinaisons. Il affiche des trajectoires contrastées ; il ne désigne aucun choix politique comme supérieur.</p><button class="ai" onclick="optimize()">⚙️ RECHERCHER DES TRAJECTOIRES</button><div id="opts"></div></section>
-
-<section class="card"><h2>Validation & provenance</h2>
-<span class="pill">Insee APU 2025</span><span class="pill">Insee comptes distribués 2023</span><span class="pill">DREES EVSI 2024</span><span class="pill">Monte Carlo simplifié</span>
-<p class="note">Le moteur V10.2 bêta n'est pas un modèle officiel. Les comptes de départ et niveaux de vie sont observés ; les élasticités comportementales restent des hypothèses documentées dans le code. L'incertitude est rendue visible plutôt que masquée.</p></section>
-
-<script>
-const B={gdp:152.5/.051,debt:3460.5,rev:1561.6,sp:1714.1};
-const G=[
- {n:"Pauvres",share:.14,life:28800,vat:1.25,labor:.45,ben:1.55,pen:.55,public:1.30},
- {n:"Modestes",share:.26,life:36700,vat:1.15,labor:.85,ben:1.30,pen:.80,public:1.15},
- {n:"Médians",share:.26,life:41100,vat:1.00,labor:1.15,ben:1.00,pen:1.00,public:1.00},
- {n:"Plutôt aisés",share:.23,life:50400,vat:.90,labor:1.20,ben:.65,pen:1.10,public:.90},
- {n:"Aisés",share:.10,life:93800,vat:.70,labor:1.00,ben:.35,pen:1.20,public:.75}
-];
-const ids=["vat","labor","benefit","pension","admin","health","invest","growth"];
-ids.forEach(i=>document.getElementById(i).addEventListener("input",()=>{labels();run()}));
-function f(x,d=1){return x.toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d})}function s(x){return(x>=0?"+":"")+x+" Md€"}
-function labels(){vatV.textContent=s(+vat.value);laborV.textContent=s(+labor.value);benefitV.textContent=s(+benefit.value);pensionV.textContent=s(+pension.value);adminV.textContent=s(+admin.value);healthV.textContent=s(+health.value);investV.textContent=s(+invest.value);growthV.textContent=f(+growth.value,1)+" %"}
-function P(){return{vat:+vat.value,labor:+labor.value,benefit:+benefit.value,pension:+pension.value,admin:+admin.value,health:+health.value,invest:+invest.value,growth:+growth.value}}
-function calc(p){
- let g=B.gdp,debt=B.debt,rows=[];let revDelta=p.vat+p.labor;let spendDelta=p.benefit+p.pension+p.admin+p.health+p.invest;
- // HYPOTHÈSE : effets macro modestes et bornés, explicitement non officiels
- let growthAdj=(-p.vat*.002 - p.labor*.004 + p.invest*.003 + p.health*.001)/100;
- for(let y=2026;y<=2035;y++){let gr=p.growth/100+growthAdj;g*=1+gr;let sc=g/B.gdp,R=B.rev*sc+revDelta,S=B.sp*sc+spendDelta,D=S-R;debt+=D;let ratio=100*debt/g;let spread=2.0+(y-2026)*.35;rows.push({y,D,dr:100*D/g,debt:ratio,lo:ratio-spread,hi:ratio+spread})}
- let gs=G.map(x=>{let pct=(-p.vat*.009*x.vat-p.labor*.010*x.labor+p.benefit*.012*x.ben+p.pension*.009*x.pen+p.health*.003*x.public+p.invest*.004*x.public)*10;return{...x,pct}});
- let avg=gs.reduce((a,x)=>a+x.pct*x.share,0),mn=Math.min(...gs.map(x=>x.pct));
- let h=(p.health*.0022+p.invest*.00035)*10; // HYPOTHÈSE santé
- return{rows,gs,avg,mn,h,last:rows.at(-1),net:revDelta-spendDelta}
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PLEDELEC Clim V1</title><style>body{font-family:system-ui;margin:0;background:#f4f6f8;color:#17202a}header{background:#101828;color:white;padding:16px;position:sticky;top:0}main{max-width:1050px;margin:auto;padding:14px}.card{background:white;border:1px solid #ddd;border-radius:14px;padding:14px;margin-bottom:12px}h2{font-size:18px}.row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:8px 0}label{font-size:12px;color:#667085;display:block;margin-bottom:4px}input,select{width:100%;padding:9px;box-sizing:border-box;border:1px solid #ccd2dc;border-radius:8px}button{padding:10px 13px;border:0;border-radius:9px;cursor:pointer}.primary{background:#1267d6;color:white}.danger{background:#fee4e2;color:#b42318}.ui{border:1px solid #ddd;border-radius:12px;padding:12px;margin:10px 0}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.kpi{background:#f8fafc;padding:10px;border-radius:10px}.kpi b{display:block;font-size:18px}table{width:100%;border-collapse:collapse;font-size:13px}td,th{padding:8px;border-bottom:1px solid #ddd;text-align:right}td:first-child,th:first-child{text-align:left}.note{font-size:12px;color:#667085}@media(max-width:700px){.row,.kpis{grid-template-columns:1fr 1fr}}@media(max-width:450px){.row,.kpis{grid-template-columns:1fr}}@media print{
+ @page{size:A4;margin:12mm}
+ header,.no-print,.internal{display:none!important}
+ body{background:white;font-size:11pt}
+ main{max-width:none;padding:0}
+ .card{border:0!important;box-shadow:none!important;padding:4px 0;margin:0 0 8px;break-inside:avoid}
+ table{font-size:10pt}
+ th,td{padding:6px 4px}
+ .section-row{break-after:avoid}
+ .section-row+tr{break-before:avoid}
+}</style></head><body>
+<header><b>PLEDELEC Clim</b><div style="font-size:12px;opacity:.75">Thermor Nagano Pure — V1</div></header><main>
+<div class="card"><h2>Client & chantier</h2><div class="row"><div><label>Client</label><input id="client"></div><div><label>Adresse</label><input id="address"></div><div><label>Difficulté</label><select id="diff" onchange="calc()"><option value="simple">Simple</option><option value="medium">Plus compliqué</option><option value="hard">Compliqué</option></select></div><div><label>Pose UE</label><select id="pose" onchange="calc()"><option>Sol</option><option>Mur</option></select></div><div><label>TVA</label><select id="vat" onchange="calc()"><option value="5.5" selected>5,5 %</option><option value="10">10 %</option><option value="20">20 %</option></select></div><input id="ueCount" type="hidden" value="0"></div></div>
+<div class="card internal"><h2>Réglages</h2><div class="row"><div><label>Coef matériel</label><input id="coef" type="number" step=".01" value="1.60" oninput="calc()"></div><div><label>Coût MO €/h</label><input id="laborCost" type="number" value="44" oninput="calc()"></div><div><label>Coef MO</label><input id="laborCoef" type="number" step=".01" value="1.30" oninput="calc()"></div><div><label>MO vente €/h</label><input id="laborSell" disabled></div></div><p class="note">Les principaux prix Thermor sont calculés automatiquement. Les supports UE restent éditables selon le tarif fournisseur.</p></div>
+<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h2>Unités intérieures</h2><button class="primary no-print" onclick="addUI()">+ UI</button></div><div id="uis"></div></div>
+<div class="card internal"><h2>Unité extérieure</h2><div class="row"><div><label>UE sélectionnée automatiquement</label><input id="ueRef" readonly></div><div><label>Achat UE HT</label><input id="uePrice" type="number" value="0" step=".01" readonly></div><div><label>Vente UE HT (coef appliqué)</label><input id="ueSellPrice" readonly></div><div><label>Achat support UE HT</label><input id="supportPrice" type="number" value="0" oninput="calc()"></div><div><label>Accessoires UE achat HT</label><input id="ueAcc" type="number" value="40" oninput="calc()"></div></div><p class="note">Automatique par UE : 2 barres goulotte 101925 à 17,98 €, 20 m de 3G2,5 à 1,07 €/m, 1 disjoncteur courbe D à 53 €.</p></div>
+<div class="card internal"><h2>Mise en service</h2><div class="row"><div><label>Prix HT sans coefficient</label><input id="commission" type="number" oninput="manualCommission=true;calc()"></div></div><p class="note">389 € pour 1 UI + 103 € par UI supplémentaire.</p></div>
+<div class="card no-print"><h2>Présentation du devis</h2><div style="display:flex;gap:8px;flex-wrap:wrap"><button id="btnInternal" class="primary" onclick="setMode('internal')">Détail interne</button><button id="btnClient" class="secondary" onclick="setMode('client')">Version client</button></div><p class="note">La version client regroupe fournitures et main-d’œuvre dans chaque poste.</p></div><div class="card"><h2>Résumé</h2><div class="kpis"><div class="kpi internal"><small>Achats matériel</small><b id="purchase">0 €</b></div><div class="kpi"><small>Total HT</small><b id="ht">0 €</b></div><div class="kpi"><small>TVA</small><b id="tax">0 €</b></div><div class="kpi"><small>Total TTC</small><b id="ttc">0 €</b></div><div class="kpi internal"><small>Heures MO</small><b id="hours">0 h</b></div><div class="kpi internal"><small>MO vendue</small><b id="labor">0 €</b></div><div class="kpi internal"><small>Marge brute estimée</small><b id="margin">0 €</b></div><div class="kpi internal"><small>Taux de marque</small><b id="rate">0 %</b></div></div></div>
+<div class="card"><h2>Détail devis</h2><table><thead><tr><th>Désignation</th><th>Qté</th><th>PU HT</th><th>Total HT</th></tr></thead><tbody id="rows"></tbody></table><p><b>Mise en service Pompe a chaleur air/air THERMOR NAGANO</b><br>Pose raccordement et mise en service pompe a chaleur air/air<br>Mise en service PLEDELEC<br>CAPACITE N°aco/sq020427-001<br>QUALIBAT RGE N°E-E99271</p><button class="primary no-print" onclick="printClientPDF()">Imprimer la version client / PDF</button></div>
+</main><script>
+let seq=0,manualCommission=false,displayMode='internal';
+function setMode(m){displayMode=m;document.getElementById('btnInternal').className=m==='internal'?'primary':'secondary';document.getElementById('btnClient').className=m==='client'?'primary':'secondary';calc();}
+function printClientPDF(){
+  setMode('client');
+  document.body.classList.add('printing-client');
+  setTimeout(()=>{ window.print(); document.body.classList.remove('printing-client'); },250);
 }
-function run(){let z=calc(P());body.innerHTML=z.rows.map(x=>`<tr><td>${x.y}</td><td>${f(x.D)}</td><td>${f(x.dr,2)} %</td><td>${f(x.debt,1)} %</td><td>${f(x.lo,1)}–${f(x.hi,1)} %</td></tr>`).join("");
- defR.textContent=f(z.last.dr,2)+" %";debtR.textContent=f(z.last.debt,1)+" %";lifeR.textContent=(z.avg>=0?"+":"")+f(z.avg,1)+" %";healthR.textContent=(z.h>=0?"+":"")+f(z.h,2)+" an";
- defR.className=z.last.dr<=3?"good":"warn";debtR.className=z.last.debt<115.7?"good":"warn";lifeR.className=z.avg>=0?"good":"bad";healthR.className=z.h>=0?"good":"bad";
- uncert.textContent=`Dette/PIB 2035 : scénario central ${f(z.last.debt,1)} %, plage illustrative ${f(z.last.lo,1)}–${f(z.last.hi,1)} %. Cette plage représente l'incertitude de modèle, pas un intervalle statistique officiel.`;
- let q=[];q.push([z.mn>=0,"Aucun des 5 groupes n'a un proxy de niveau de vie négatif"]);q.push([z.h>=0,"Proxy d'espérance de vie en bonne santé non négatif"]);q.push([z.last.debt<=125,"Dette/PIB sous le plafond expérimental de 125 %"]);
- guards.innerHTML=q.map(([ok,t])=>`<p class="note ${ok?'good':'warn'}">${ok?'✓':'⚠'} ${t}</p>`).join("");
- groups.innerHTML=z.gs.map(x=>`<div style="margin:9px 0"><div class="row"><span>${x.n} <span class="note">· ${Math.round(x.share*100)} % · réf. ${f(x.life,0)} €/UC</span></span><b class="${x.pct>=0?'good':'bad'}">${x.pct>=0?'+':''}${f(x.pct,1)} %</b></div><div class="bar"><div class="fill ${x.pct>=0?'good':'bad'}" style="width:${Math.min(100,Math.abs(x.pct)*7)}%"></div></div></div>`).join("");
+const n=id=>Number(document.getElementById(id).value)||0;const eur=x=>(x||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+function addUI(){seq++;let d=document.createElement('div');d.className='ui';d.innerHTML=`<div style="display:flex;justify-content:space-between"><b>UI ${seq}</b><button class="danger no-print" onclick="this.closest('.ui').remove();calc()">Supprimer</button></div><div class="row"><div><label>Pièce</label><input class="room" oninput="calc()"></div><div><label>Volume de la pièce m³</label><input class="volume" type="number" step=".1" placeholder="Ex. 100" oninput="power(this)"></div><div><label>Isolation</label><select class="iso" onchange="power(this)"><option value=".8">Bien isolé 0,8</option><option value="1" selected>Moyen 1</option><option value="1.2">Mal isolé 1,2</option></select></div><div><label>Besoin calculé</label><input class="need" disabled></div><div><label>Puissance UI</label><select class="pow" onchange="calc()"><option value="1.5">1,5 kW</option><option value="2">2,0 kW</option><option value="2.6" selected>2,6 kW</option><option value="3.5">3,5 kW</option><option value="4.2">4,2 kW</option><option value="5.2">5,2 kW</option><option value="7">7,0 kW</option></select></div><div class="internal"><label>Référence UI</label><input class="ref"></div><div class="internal"><label>Achat UI HT automatique</label><input class="price" type="number" value="0" readonly></div><div><label>Liaison frigo longueur réelle m</label><input class="frigoLen" type="number" value="5"></div><div><label>Condensats longueur réelle m</label><input class="condLen" type="number" value="5"></div><div><label>Pompe Si-30</label><select class="pump" onchange="calc()"><option value="0">Non</option><option value="1">Oui</option></select></div><div><label>Goulotte UI nécessaire m</label><input class="trunk" type="number" step=".1" value="2" oninput="calc()"></div></div>`;document.getElementById('uis').appendChild(d);calc()}
+function power(el){let u=el.closest('.ui'),v=Number(u.querySelector('.volume').value)||0,c=Number(u.querySelector('.iso').value)||1,w=v*26*c;u.querySelector('.need').value=w?Math.round(w)+' W / '+(w/1000).toFixed(2)+' kW':'';if(w){let p=[1.5,2.6,3.5,4.2,5.2].find(x=>x>=w/1000)||7;u.querySelector('.pow').value=p}calc()}
+
+const ueCatalog={
+  1:[{kw:2,ref:"Mono-split 2,0 kW"},{kw:2.6,ref:"Mono-split 2,6 kW"},{kw:3.5,ref:"Mono-split 3,5 kW"},{kw:4.2,ref:"Mono-split 4,2 kW — 872953"},{kw:5.2,ref:"Mono-split 5,2 kW — 872042"},{kw:7,ref:"Mono-split 7,0 kW"},{kw:9,ref:"Mono-split 9,0 kW — 872131"},{kw:12.5,ref:"Mono-split 12,5 kW — 872033"}],
+  2:[{kw:4,ref:"Bi-split 4,0 kW — 872946"},{kw:5,ref:"Bi-split 5,0 kW — 872174"}],
+  3:[{kw:5.5,ref:"Tri-split 5,5 kW — 872135"},{kw:7,ref:"Tri-split 7,0 kW — 872175"}],
+  4:[{kw:7.8,ref:"Quadri-split 7,8 kW — 872945"},{kw:8.5,ref:"Quadri-split 8,5 kW — 872176"},{kw:10,ref:"Quadri-split 10,0 kW"}],
+  5:[{kw:10,ref:"Penta-split 10,0 kW — 872177"},{kw:12.5,ref:"Penta-split 12,5 kW — 872190"}]
+};
+function suggestUE(uis){
+  const n=uis.length;
+  const total=uis.reduce((a,u)=>a+(Number(u.querySelector('.power').value)||0),0);
+  document.getElementById('uiPowerTotal').value=total.toFixed(1)+' kW';
+  if(!n) return {text:"Aucune UI",kw:0};
+  if(n>5) return {text:"Plus de 5 UI : prévoir plusieurs UE",kw:0};
+  const cat=ueCatalog[n]||[];
+  // Pré-dimensionnement : première UE de la famille dont la puissance nominale atteint le total UI.
+  // Si la somme UI dépasse la plus grande UE de la famille, on conserve la plus grande et on signale une vérification.
+  const found=cat.find(x=>x.kw>=total);
+  if(found) return {text:found.ref,kw:found.kw};
+  const last=cat[cat.length-1];
+  return last ? {text:last.ref+" — combinaison à vérifier",kw:last.kw} : {text:"À définir",kw:0};
 }
-function optimize(){
- opts.innerHTML='<p class="note">⏳ Calcul des trajectoires…</p>';
- setTimeout(()=>{
- try{
-  let C=[];
-  const vals=[-20,-10,0,10,20];
-  const pos=[0,10,20];
-  for(const vat of [-10,0,10,20])for(const labor of vals)for(const benefit of vals)
-  for(const pension of vals)for(const admin of [-20,-10,0])for(const health of pos)for(const invest of pos){
-    let p={vat,labor,benefit,pension,admin,health,invest,growth:3},z=calc(p);
-    // Exclut seulement les trajectoires manifestement hors champ expérimental.
-    if(z.last.debt<=145 && z.h>=0) C.push({p,z});
+
+
+
+
+const UI_PRICES = {
+  '1.5': {ref:'873893', buy:209.50},
+  '2.6': {ref:'873895', buy:233.00},
+  '3.5': {ref:'873896', buy:284.00},
+  '4.2': {ref:'873897', buy:331.00},
+  '5.2': {ref:'873898', buy:378.00}
+};
+
+const UE_PRICES = {
+  mono35: {label:'Nagano UE Mono 3,5 kW R32 V2 — réf. 872186', buy:471.50},
+  bi50:   {label:'Nagano UE Bi 5,0 kW R32 — réf. 872174', buy:861.00},
+  tri70:  {label:'Nagano UE Tri 7,0 kW R32 — réf. 872175', buy:1265.50},
+  quad85: {label:'Nagano UE Quadri 8,5 kW R32 — réf. 872176', buy:1696.50},
+  penta105:{label:'Nagano UE Penta 10,5 kW R32 — réf. 872177', buy:1899.50}
+};
+
+function selectUE(us){
+  const count=us.length;
+  const total=us.reduce((sum,u)=>sum+(Number(u.querySelector('.pow').value)||0),0);
+  let item=null, warning='';
+  if(count===1){
+    if(total<=3.5) item=UE_PRICES.mono35;
+    else warning='Mono > 3,5 kW : prix UE non présent dans le tarif fourni';
+  } else if(count===2){
+    item=UE_PRICES.bi50;
+    if(total>5) warning='Combinaison UI > 5,0 kW : à vérifier';
+  } else if(count===3){
+    item=UE_PRICES.tri70;
+    if(total>7) warning='Combinaison UI > 7,0 kW : à vérifier';
+  } else if(count===4){
+    item=UE_PRICES.quad85;
+    if(total>8.5) warning='Combinaison UI > 8,5 kW : à vérifier';
+  } else if(count===5){
+    item=UE_PRICES.penta105;
+    if(total>10.5) warning='Combinaison UI > 10,5 kW : à vérifier';
+  } else if(count>5){
+    warning='Plus de 5 UI : plusieurs unités extérieures nécessaires';
   }
-  // Front de Pareto: dette plus faible, niveau de vie moyen plus haut,
-  // groupe le moins favorisé plus haut, santé plus haute.
-  C.sort((a,b)=>a.z.last.debt-b.z.last.debt);
-  let front=[];
-  for(const c of C){
-    let dominated=C.some(d=>d!==c &&
-      d.z.last.debt<=c.z.last.debt && d.z.avg>=c.z.avg &&
-      d.z.mn>=c.z.mn && d.z.h>=c.z.h &&
-      (d.z.last.debt<c.z.last.debt || d.z.avg>c.z.avg || d.z.mn>c.z.mn || d.z.h>c.z.h));
-    if(!dominated) front.push(c);
-  }
-  if(!front.length){opts.innerHTML='<p class="warn">Aucune trajectoire exploitable dans cette grille.</p>';return}
-  // Points représentatifs espacés sur le front, sans classement ni "gagnant".
-  front.sort((a,b)=>a.z.last.debt-b.z.last.debt);
-  let picks=[];
-  [0,.25,.5,.75,1].forEach(q=>{let c=front[Math.round(q*(front.length-1))];if(c&&!picks.includes(c))picks.push(c)});
-  opts.innerHTML=`<p class="note"><b>${front.length}</b> trajectoires non dominées trouvées. Les scénarios ci-dessous sont des points représentatifs du front de compromis, sans ordre de préférence.</p>`+
-  picks.map((c,i)=>`<div class="scenario"><b>Scénario ${String.fromCharCode(65+i)}</b> <span class="tag">NON DOMINÉ</span>
-  <p class="note">2035 : déficit ${f(c.z.last.dr,2)} % · dette ${f(c.z.last.debt,1)} % · niveau de vie moyen ${c.z.avg>=0?'+':''}${f(c.z.avg,1)} % · groupe minimum ${c.z.mn>=0?'+':''}${f(c.z.mn,1)} % · santé ${c.z.h>=0?'+':''}${f(c.z.h,2)} an</p>
-  <p class="note">TVA ${s(c.p.vat)} · travail ${s(c.p.labor)} · prestations ${s(c.p.benefit)} · retraites ${s(c.p.pension)} · admin ${s(c.p.admin)} · santé ${s(c.p.health)} · investissement ${s(c.p.invest)}</p></div>`).join("");
- }catch(e){opts.innerHTML='<p class="bad">Erreur du moteur : '+String(e.message||e)+'</p>'}
- },30);
+  const ref=item ? item.label+(warning?' — '+warning:'') : (warning||'Ajoutez une pièce');
+  document.getElementById('ueRef').value=ref;
+  document.getElementById('uePrice').value=item ? item.buy.toFixed(2) : '0.00';
+  const disp=document.getElementById('ueAutoDisplay');
+  if(disp) disp.value=count ? ref+' — '+total.toLocaleString('fr-FR')+' kW d’UI' : 'Ajoutez une pièce';
+  document.getElementById('ueCount').value = item ? 1 : 0;
+  return {count:item?1:0,total,ref,buy:item?item.buy:0};
 }
-function resetAll(){ids.forEach(i=>document.getElementById(i).value=i==="growth"?3:0);labels();run();opts.innerHTML=""}labels();run();
-if("serviceWorker"in navigator)navigator.serviceWorker.register("./sw.js").catch(()=>{});
-</script></main></body></html>
+function calc(){let coef=n('coef'),lc=n('laborCost'),lcoef=n('laborCoef'),ls=lc*lcoef;document.getElementById('laborSell').value=eur(ls);let us=[...document.querySelectorAll('.ui')],autoUE=selectUE(us),ue=autoUE.count,purchase=0,sell=0,rows=[];function mat(name,q,cost){let p=q*cost,s=p*coef;purchase+=p;sell+=s;if(s)rows.push([name,q,s/q,s])}us.forEach((u,i)=>{let room=u.querySelector('.room').value||('UI '+(i+1)),p=u.querySelector('.pow').value;
+let uiItem=UI_PRICES[String(p)];
+if(uiItem){u.querySelector('.price').value=uiItem.buy.toFixed(2);}
+mat('Unité intérieure Thermor Nagano Pure '+p+' kW'+(uiItem?' — réf. '+uiItem.ref:'')+' — '+room,1,uiItem?uiItem.buy:(Number(u.querySelector('.price').value)||0));mat('Liaison frigorifique — fourniture comprise',1,0);mat('Rouleau condensats TECNOSYSTEMI 50 m — 433748',1,18.03);if(u.querySelector('.pump').value==='1')mat('Pompe condensats Sauermann Si-30 — 165744',1,102.12);mat('Goulotte CBM 101923 — barre 2 m',Math.ceil((Number(u.querySelector('.trunk').value)||0)/2),12.92);mat('Câble 5G1,5 mm²',15,1.13)});let ueBuy=n('uePrice'),ueSell=ueBuy*coef;
+document.getElementById('ueSellPrice').value=eur(ueSell);
+purchase+=ue*ueBuy;sell+=ue*ueSell;
+rows.push(['Unité extérieure Thermor Nagano Pure'+(document.getElementById('ueRef').value?' — '+document.getElementById('ueRef').value:''),ue,ueSell,ue*ueSell]);mat('Support UE — pose '+document.getElementById('pose').value,ue,n('supportPrice'));mat('Goulotte UE CBM 101925',ue*2,17.98);mat('Accessoires divers UE',ue,n('ueAcc'));mat('Câble 3G2,5 mm²',ue*20,1.07);mat('Disjoncteur courbe D',ue,53);let diff=document.getElementById('diff').value,uiH={simple:4,medium:6,hard:8}[diff],ueH={simple:8,medium:10,hard:12}[diff],hrs=us.length*uiH+ue*ueH,labor=hrs*ls,laborCost=hrs*lc;if(!manualCommission)document.getElementById('commission').value=us.length?389+Math.max(0,us.length-1)*103:0;let comm=n('commission');if(labor)rows.push(["Main-d'œuvre pose",hrs,ls,labor]);if(comm)rows.push(['Mise en service PLEDELEC',1,comm,comm]);let ht=sell+labor+comm,tax=ht*n('vat')/100,ttc=ht+tax,margin=ht-(purchase+laborCost+comm),rate=ht?margin/ht*100:0;document.getElementById('purchase').textContent=eur(purchase);document.getElementById('ht').textContent=eur(ht);document.getElementById('tax').textContent=eur(tax);document.getElementById('ttc').textContent=eur(ttc);document.getElementById('hours').textContent=hrs+' h';document.getElementById('labor').textContent=eur(labor);document.getElementById('margin').textContent=eur(margin);document.getElementById('rate').textContent=rate.toFixed(1)+' %';{
+let groups=[], current=null;
+function group(title){current={title,items:[]};groups.push(current)}
+function add(r){if(!current)group('Divers');current.items.push(r)}
+const uiRows=rows.filter(r=>String(r[0]).startsWith('Unité intérieure')||String(r[0]).startsWith('Liaison frigorifique')||String(r[0]).startsWith('Rouleau condensats')||String(r[0]).startsWith('Pompe condensats')||String(r[0]).startsWith('Goulotte CBM 101923')||String(r[0]).startsWith('Câble 5G1,5'));
+let cursor=0;
+[...document.querySelectorAll('.ui')].forEach((u,i)=>{
+  const room=u.querySelector('.room').value||('UI '+(i+1));
+  group('UNITÉ INTÉRIEURE — '+room.toUpperCase());
+  // UI always has UI, frigo, condensate; pump optional; goulotte if >0; cable always.
+  let take=3+(u.querySelector('.pump').value==='1'?1:0)+(Math.ceil((Number(u.querySelector('.trunk').value)||0)/2)>0?1:0)+1;
+  for(let k=0;k<take && cursor<uiRows.length;k++) add(uiRows[cursor++]);
+});
+const ueRows=rows.filter(r=>String(r[0]).startsWith('Unité extérieure')||String(r[0]).startsWith('Support UE')||String(r[0]).startsWith('Goulotte UE')||String(r[0]).startsWith('Accessoires divers UE'));
+if(ueRows.length){group('UNITÉ EXTÉRIEURE');ueRows.forEach(add)}
+const elecRows=rows.filter(r=>String(r[0]).startsWith('Câble 3G2,5')||String(r[0]).startsWith('Disjoncteur courbe D'));
+if(elecRows.length){group('ÉLECTRICITÉ');elecRows.forEach(add)}
+const laborRows=rows.filter(r=>String(r[0]).startsWith("Main-d'œuvre"));
+if(laborRows.length){group("MAIN-D’ŒUVRE");laborRows.forEach(add)}
+const commRows=rows.filter(r=>String(r[0]).startsWith('Mise en service'));
+if(commRows.length){group('MISE EN SERVICE');commRows.forEach(add)}
+if(displayMode==='internal'){
+ document.getElementById('rows').innerHTML=groups.map(g=>`<tr class="section-row"><td colspan="4">${g.title}</td></tr>`+g.items.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${eur(r[2])}</td><td>${eur(r[3])}</td></tr>`).join('')).join('');
+}else{
+ let client=[];
+ [...document.querySelectorAll('.ui')].forEach((u,i)=>{
+   let room=u.querySelector('.room').value||('UI '+(i+1)), p=u.querySelector('.pow').value, item=UI_PRICES[String(p)];
+   let cost=(item?item.buy:0)+18.03+15*1.13;
+   if(u.querySelector('.pump').value==='1') cost+=102.12;
+   cost+=Math.ceil((Number(u.querySelector('.trunk').value)||0)/2)*12.92;
+   let total=cost*coef+uiH*ls;
+   client.push(['UNITÉ INTÉRIEURE — '+room.toUpperCase(),'Fourniture et pose d’une unité intérieure Thermor Nagano Pure '+p+' kW comprenant liaison frigorifique, évacuation des condensats, raccordement électrique, goulottes et accessoires de pose'+(u.querySelector('.pump').value==='1'?', pompe de relevage des condensats comprise':'')+'.',total]);
+ });
+ if(ue){
+   let costUE=(n('uePrice')+n('supportPrice')+2*17.98+n('ueAcc')+20*1.07+53)*ue;
+   client.push(['UNITÉ EXTÉRIEURE','Fourniture et pose de '+(document.getElementById('ueRef').value||'l’unité extérieure Thermor Nagano')+' comprenant support '+document.getElementById('pose').value.toLowerCase()+', goulottes et accessoires, alimentation électrique 3G2,5 mm² et protection par disjoncteur courbe D.',costUE*coef+ue*ueH*ls]);
+ }
+ if(comm) client.push(['MISE EN SERVICE','Mise en service Pompe a chaleur air/air THERMOR NAGANO — Pose raccordement et mise en service pompe a chaleur air/air — Mise en service PLEDELEC — CAPACITE N°aco/sq020427-001 — QUALIBAT RGE N°E-E99271',comm]);
+ document.getElementById('rows').innerHTML=client.map(x=>`<tr class="section-row"><td colspan="4">${x[0]}</td></tr><tr><td>${x[1]}</td><td>1</td><td>${eur(x[2])}</td><td>${eur(x[2])}</td></tr>`).join('');
+}
+}}
+addUI();</script></body></html>
